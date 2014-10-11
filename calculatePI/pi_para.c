@@ -12,7 +12,7 @@ void *slot (void *t)
 {
 	int tNum = *((int *) t);
 	int start, end;
-
+	int i;
 
 	start = (N/NUM_THREADS) * tNum;
 	end = (N/NUM_THREADS) * (tNum + 1);
@@ -20,7 +20,7 @@ void *slot (void *t)
 		end = N;
 
 	double factor = (start % 2 == 0 ? 1.0 : -1.0);
-	for (int i = start; i < end; i++)
+	for (i = start; i < end; i++)
 	{
 		pthread_mutex_lock(&pmutex);
 		sum += factor / (2*i + 1);
@@ -31,16 +31,17 @@ void *slot (void *t)
 
 double calculate()
 {
+	int i;
 	pthread_t tHandlers[NUM_THREADS];
 	pthread_mutex_init(&pmutex, NULL);
-	for (int i = 0; i < NUM_THREADS; i++)
+	for (i = 0; i < NUM_THREADS; i++)
 	{
 		int *threadNum = (int*)malloc(sizeof(int));
 		*threadNum = i;
 		pthread_create(&tHandlers[i], NULL, slot, (void*)(threadNum));
 	}
 
-	for (int i = 0; i < NUM_THREADS; i++)
+	for (i = 0; i < NUM_THREADS; i++)
 	{
 		pthread_join(tHandlers[i], NULL);
 	}

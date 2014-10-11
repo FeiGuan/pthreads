@@ -4,10 +4,10 @@
 
 int main()
 {
-
+	int k;
 	double factor = 1.0;
 	double sum = 0.0;
-	for (int k = 0; k < N; k++) {
+	for (k = 0; k < N; k++) {
 		sum += factor / (2*k + 1);
 		factor = -factor;
 	}
